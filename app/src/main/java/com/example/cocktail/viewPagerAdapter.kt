@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import com.example.cocktail.view.FavouritesFragment
+import com.example.cocktail.view.Favourites.FavouritesFragment
 import com.example.cocktail.view.Home.HomeFragment
 import com.example.cocktail.view.search.SearchFragment
 

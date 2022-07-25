@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,21 +17,17 @@ import com.example.cocktail.databinding.FragmentSearchBinding
 import com.example.cocktail.model.Drink
 import com.example.cocktail.view.Details.DetailsActivity
 import com.example.narasimhakonapalli_finalassignment.listener.OnClickItemSearch
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class SearchFragment : Fragment() {
 
     private var _binding: FragmentSearchBinding? = null
     private val binding: FragmentSearchBinding get() = _binding!!
 
 
-    private val viewModel: SearchViewModel by lazy {
-        object : ViewModelProvider.Factory{
-            override fun <T : ViewModel> create(modelClass: Class<T>):T{
-                return SearchViewModel(RepositoryImpl()) as T
-            }
-        }.create(SearchViewModel::class.java)
-    }
+    val viewModel : SearchViewModel by viewModels()
+
 
     private val adapterSearch: SearchAdapter by lazy {
         SearchAdapter()
@@ -84,7 +81,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun navigationToDetails(drink: Drink) {
-        val intent = Intent(activity, DetailsActivity::class.java)
+        val intent = Intent(activity,DetailsActivity::class.java)
         intent.putExtra("id", drink.idDrink)
         startActivity(intent)
     }

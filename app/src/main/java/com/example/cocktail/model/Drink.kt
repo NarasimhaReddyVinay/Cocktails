@@ -4,10 +4,8 @@ package com.example.cocktail.model
 import com.google.gson.annotations.SerializedName
 
 data class Drink(
-    @SerializedName("dateModified")
-    val dateModified: String? = "",
     @SerializedName("idDrink")
-    val idDrink: String? = "",
+    val idDrink: Int,
     @SerializedName("strAlcoholic")
     val strAlcoholic: String? = "",
     @SerializedName("strCategory")

@@ -7,7 +7,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.cocktail.databinding.ListSearchBinding
 import com.example.cocktail.model.Drink
-import com.example.cocktail.util.Constant
 import com.example.narasimhakonapalli_finalassignment.listener.OnClickItemSearch
 
 
@@ -15,7 +14,6 @@ class SearchAdapter : RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() {
 
     private var list: MutableList<Drink> = mutableListOf()
     var onClickItemSearch: OnClickItemSearch?= null
-
 
     inner class SearchViewHolder(private val binding: ListSearchBinding) : RecyclerView.ViewHolder(binding.root){
         fun bind(drink: Drink){

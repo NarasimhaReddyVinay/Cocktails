@@ -5,16 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cocktail.data.Repository
 import com.example.cocktail.model.Drink
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(val repository: Repository): ViewModel() {
+@HiltViewModel
+class HomeViewModel @Inject constructor(val repository: Repository): ViewModel() {
 
     private val _drinksResponseList = MutableLiveData<List<Drink>>()
     val drinksResponseList: LiveData<List<Drink>> = _drinksResponseList
-
-
 
     fun requestUpcoming(){
         CoroutineScope(Dispatchers.Main).launch{

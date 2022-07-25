@@ -2,6 +2,8 @@ package com.example.cocktail.view.Details
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -9,8 +11,10 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.example.cocktail.data.RepositoryImpl
 import com.example.cocktail.databinding.ActivityDetailsBinding
 import com.example.cocktail.model.Drink
+import dagger.hilt.android.AndroidEntryPoint
 
 
+@AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
 
     private val id: Int by lazy {
@@ -19,13 +23,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailsBinding
 
-    private val viewModel: DetailsViewModle by lazy {
-        object : ViewModelProvider.Factory{
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return DetailsViewModle(RepositoryImpl()) as T
-            }
-        }.create(DetailsViewModle::class.java)
-    }
+    val viewModel : DetailsViewModle by viewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +34,7 @@ class DetailsActivity : AppCompatActivity() {
 
         navigationBack()
         observeDetailMovie()
+        observeIsFavorited()
 
         viewModel.requestDetailMovie(id)
 
@@ -52,6 +51,7 @@ class DetailsActivity : AppCompatActivity() {
             loadPoster(it)
             loadDetail(it)
 
+            viewModel.checkFavMovie()
         })
     }
 
@@ -64,11 +64,33 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun loadDetail(drink: Drink) {
-        binding.txtTitle .text = drink.strDrink
-        binding.txtIngredient1.text = drink.strIngredient1
-        binding.txtIngredient2.text = drink.strIngredient2
-        binding.txtIngredient3.text = drink.strIngredient3
-        binding.txtIngredient4 .text =  drink.strIngredient4
+        binding.apply {
+            txtTitle .text = drink.strDrink
+            txtIngredient1.text = drink.strIngredient1
+            txtIngredient2.text = drink.strIngredient2
+            txtIngredient3.text = drink.strIngredient3
+            txtIngredient4 .text =  drink.strIngredient4
+        }
+
+    }
+
+    private fun observeIsFavorited(){
+        viewModel.isFavorited.observe(this,{
+            binding.cbFavList.isChecked = it
+            addFavoriteMovie()
+        })
+    }
+
+    private fun addFavoriteMovie(){
+        binding.cbFavList.setOnCheckedChangeListener { checkBox, isChecked ->
+            if (isChecked){
+                viewModel.saveDrink()
+                Toast.makeText(this, "Drink added to favorite", Toast.LENGTH_SHORT).show()
+            }else{
+                viewModel.removeDrink()
+                Toast.makeText(this, "Drink removed from favorite", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
 }

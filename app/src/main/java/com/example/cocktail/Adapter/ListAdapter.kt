@@ -17,7 +17,6 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     inner class ListViewHolder(private val binding: ListBinding): RecyclerView.ViewHolder(binding.root){
         fun bind(drink: Drink){
 
-
             binding.txtTitleFavorite.text = drink.strDrink
 
             Glide.with(itemView)
@@ -47,14 +46,10 @@ class ListAdapter: RecyclerView.Adapter<ListAdapter.ListViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return if (list.size >= 8){
-            8
-        }else{
-            list.size
-        }
+        return list.size
     }
 
-    fun setDataUpcoming(data: List<Drink>){
+    fun setData(data: List<Drink>){
         list.clear()
         list.addAll(data)
         notifyDataSetChanged()

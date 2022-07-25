@@ -7,7 +7,9 @@ import com.example.cocktail.R
 import com.example.cocktail.databinding.ActivityMainBinding
 import com.example.cocktail.ViewPagerAdapter
 import com.google.android.material.tabs.TabLayout
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 

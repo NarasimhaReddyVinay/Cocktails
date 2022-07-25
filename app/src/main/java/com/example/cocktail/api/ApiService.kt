@@ -7,10 +7,10 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService{
-
 
     @GET("search.php?s=")
     suspend fun getDrinkQuery(
@@ -21,23 +21,9 @@ interface ApiService{
     suspend fun getDrinks(
     ): Response<Drinks>
 
-    @GET("lookup.php?i=")
+    @GET("lookup.php?i=11008")
     suspend fun getDetails(
         @Query("id") id: Int,
     ): Response<Drink>
 
-
-    companion object {
-        private var instance: ApiService? = null
-        fun getApiService(): ApiService{
-            if (instance == null){
-                instance = Retrofit.Builder()
-                    .baseUrl(Constant.BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                    .create(ApiService::class.java)
-            }
-            return instance!!
-        }
-    }
 }

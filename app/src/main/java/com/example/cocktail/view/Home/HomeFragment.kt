@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.cocktail.Adapter.ListAdapter
@@ -14,8 +15,9 @@ import com.example.cocktail.databinding.FragmentHomeBinding
 import com.example.cocktail.listener.OnClickItemList
 import com.example.cocktail.model.Drink
 import com.example.cocktail.view.Details.DetailsActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class HomeFragment : Fragment() {
 
     private val adapter: ListAdapter by lazy {
@@ -25,14 +27,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding get() = _binding!!
 
-
-    private val viewModel: HomeViewModel by lazy {
-        object : ViewModelProvider.Factory{
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return HomeViewModel(RepositoryImpl()) as T
-            }
-        }.create(HomeViewModel::class.java)
-    }
+    val viewModel :HomeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,6 +39,7 @@ class HomeFragment : Fragment() {
         observe()
         setList()
 
+
         viewModel.requestUpcoming()
 
         return binding.root
@@ -51,7 +47,7 @@ class HomeFragment : Fragment() {
 
     private fun observe() {
         viewModel.drinksResponseList.observe(viewLifecycleOwner) {
-            adapter.setDataUpcoming(it)
+            adapter.setData(it)
         }
     }
 
@@ -59,12 +55,12 @@ class HomeFragment : Fragment() {
         binding.rvDrinks.adapter = adapter
         adapter.onClickListener= object : OnClickItemList {
             override fun onClick(drink: Drink) {
-                navigationToDetailUpcoming(drink)
+                navigationToDetail(drink)
             }
         }
     }
 
-    private fun navigationToDetailUpcoming(drink: Drink){
+    private fun navigationToDetail(drink: Drink){
         val intent = Intent(activity, DetailsActivity::class.java)
         intent.putExtra("id", drink.idDrink)
         startActivity(intent)

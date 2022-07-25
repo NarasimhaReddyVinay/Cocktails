@@ -5,11 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.cocktail.data.Repository
 import com.example.cocktail.model.Drink
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchViewModel(val repository: Repository) : ViewModel() {
+@HiltViewModel
+class SearchViewModel @Inject constructor(val repository: Repository) : ViewModel() {
 
     private val _searchResponse = MutableLiveData<List<Drink>>()
     val searchResponse: LiveData<List<Drink>> = _searchResponse
